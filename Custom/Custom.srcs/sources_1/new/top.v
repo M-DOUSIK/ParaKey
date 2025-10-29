@@ -57,16 +57,25 @@ module top (
                     state <= READ_COLS;
                 end
 
-                // Step 2: Read columns
+                // Step 2: Wait for valid column before moving on
                 READ_COLS: begin
-                    casez (cols)
-                        4'b1zzz: j <= 2'b00;
-                        4'b01zz: j <= 2'b01;
-                        4'b001z: j <= 2'b10;
-                        4'b0001: j <= 2'b11;
-                        default: j <= 2'bzz;
-                    endcase
-                    state <= DRIVE_COLS;
+                    if (cols !== 4'bzzzz) begin
+                        casez (cols)
+                            4'b1???: j <= 2'b00;
+                            4'b01??: j <= 2'b01;
+                            4'b001?: j <= 2'b10;
+                            4'b0001: j <= 2'b11;
+                            default: j <= 2'bzz;
+                        endcase
+                    end else begin
+                        j <= 2'bzz;
+                    end
+
+                    // Move only when a valid column is detected
+                    if (j !== 2'bzz)
+                        state <= DRIVE_COLS;
+                    else
+                        state <= READ_COLS;
                 end
 
                 // Step 3: Drive all columns
@@ -76,17 +85,21 @@ module top (
                     state <= READ_ROWS;
                 end
 
-                // Step 4: Read rows and debounce
+                // Step 4: Wait for valid row, then debounce
                 READ_ROWS: begin
-                    casez (rows)
-                        4'b1zzz: i <= 2'b00;
-                        4'b01zz: i <= 2'b01;
-                        4'b001z: i <= 2'b10;
-                        4'b0001: i <= 2'b11;
-                        default: i <= 2'bzz;
-                    endcase
+                    if (rows !== 4'bzzzz) begin
+                        casez (rows)
+                            4'b1???: i <= 2'b00;
+                            4'b01??: i <= 2'b01;
+                            4'b001?: i <= 2'b10;
+                            4'b0001: i <= 2'b11;
+                            default: i <= 2'bzz;
+                        endcase
+                    end else begin
+                        i <= 2'bzz;
+                    end
 
-                    // Detect valid key position
+                    // Only proceed if valid row detected
                     if (i !== 2'bzz && j !== 2'bzz) begin
                         // Retriggerable debounce logic
                         if (matrix[i][j] == last_key) begin
@@ -100,7 +113,6 @@ module top (
                             last_key <= matrix[i][j];
                         end
                     end else begin
-                        // No valid press → reset debounce
                         debounce_cnt <= 0;
                         key_stable <= 0;
                     end
@@ -109,7 +121,11 @@ module top (
                     if (key_stable)
                         key <= last_key;
 
-                    state <= DRIVE_ROWS; // loop back
+                    // Only loop back once valid row detected
+                    if (i !== 2'bzz)
+                        state <= DRIVE_ROWS;
+                    else
+                        state <= READ_ROWS;
                 end
             endcase
         end
