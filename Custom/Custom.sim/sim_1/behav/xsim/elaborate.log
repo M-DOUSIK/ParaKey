@@ -6,12 +6,4 @@ Using 2 slave threads.
 Starting static elaboration
 Pass Through NonSizing Optimizer
 Completed static elaboration
-Starting simulation data flow analysis
-WARNING: [XSIM 43-4328] File: D:/Workspace/ParaKey/Custom/Custom.srcs/sim_1/new/tb_top.v Line: 62 : Sensitivity on input argument "col" of task "simulate_keypress" may never get triggered.
-WARNING: [XSIM 43-4328] File: D:/Workspace/ParaKey/Custom/Custom.srcs/sim_1/new/tb_top.v Line: 66 : Sensitivity on input argument "row" of task "simulate_keypress" may never get triggered.
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling module xil_defaultlib.top
-Compiling module xil_defaultlib.tb_top
-Compiling module xil_defaultlib.glbl
-Built simulation snapshot tb_top_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
