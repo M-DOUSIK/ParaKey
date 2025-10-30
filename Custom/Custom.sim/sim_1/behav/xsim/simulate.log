@@ -1,1 +1,51 @@
 Time resolution is 1 ps
+
+[45000] ▶ Testing key at Row=0, Col=0 (Expected=0)
+[305000] ✅ Key detected correctly: 0
+
+[305000] ▶ Testing key at Row=0, Col=1 (Expected=1)
+[565000] ✅ Key detected correctly: 1
+
+[565000] ▶ Testing key at Row=0, Col=2 (Expected=2)
+[825000] ✅ Key detected correctly: 2
+
+[825000] ▶ Testing key at Row=0, Col=3 (Expected=3)
+[1085000] ✅ Key detected correctly: 3
+
+[1085000] ▶ Testing key at Row=1, Col=0 (Expected=4)
+[1345000] ✅ Key detected correctly: 4
+
+[1345000] ▶ Testing key at Row=1, Col=1 (Expected=5)
+[1605000] ✅ Key detected correctly: 5
+
+[1605000] ▶ Testing key at Row=1, Col=2 (Expected=6)
+[1865000] ✅ Key detected correctly: 6
+
+[1865000] ▶ Testing key at Row=1, Col=3 (Expected=7)
+[2125000] ✅ Key detected correctly: 7
+
+[2125000] ▶ Testing key at Row=2, Col=0 (Expected=8)
+[2385000] ✅ Key detected correctly: 8
+
+[2385000] ▶ Testing key at Row=2, Col=1 (Expected=9)
+[2645000] ✅ Key detected correctly: 9
+
+[2645000] ▶ Testing key at Row=2, Col=2 (Expected=10)
+[2905000] ✅ Key detected correctly: 10
+
+[2905000] ▶ Testing key at Row=2, Col=3 (Expected=11)
+[3165000] ✅ Key detected correctly: 11
+
+[3165000] ▶ Testing key at Row=3, Col=0 (Expected=12)
+[3425000] ✅ Key detected correctly: 12
+
+[3425000] ▶ Testing key at Row=3, Col=1 (Expected=13)
+[3685000] ✅ Key detected correctly: 13
+
+[3685000] ▶ Testing key at Row=3, Col=2 (Expected=14)
+[3945000] ✅ Key detected correctly: 14
+
+[3945000] ▶ Testing key at Row=3, Col=3 (Expected=15)
+[4205000] ✅ Key detected correctly: 15
+[4405000] ✅ All keys tested.
+$finish called at time : 4405 ns : File "D:/Workspace/ParaKey/Custom/Custom.srcs/sim_1/new/tb_top.v" Line 52
