@@ -1,91 +1,106 @@
 `timescale 1ns/1ps
-module top (
-    input clk,
-    input rst,
-    inout [3:0] rows,
-    inout [3:0] cols,
-    output reg [3:0] key
+module top #(
+    parameter R = 4,   // number of rows
+    parameter C = 4    // number of columns
+)(
+    input  clk,
+    input  rst,
+    inout  [R-1:0] rows,
+    inout  [C-1:0] cols,
+    output reg [$clog2(R*C)-1:0] key
 );
 
     // FSM states
-    parameter DRIVE_ROWS = 3'b000,
-              READ_COLS  = 3'b001,
-              DRIVE_COLS = 3'b010,
-              READ_ROWS  = 3'b011,
-              LATCH_KEY  = 3'b100;
+    localparam DRIVE_ROWS   = 3'b000,
+               READ_COLS    = 3'b001,
+               RELEASE_ROWS = 3'b010,
+               DRIVE_COLS   = 3'b011,
+               READ_ROWS    = 3'b100,
+               RELEASE_COLS = 3'b101,
+               LATCH_KEY    = 3'b110;
 
-    // Internal regs
-    reg [3:0] drive_rows, drive_cols;
-    reg [1:0] i, j;
+    reg [R-1:0] drive_rows;
+    reg [C-1:0] drive_cols;
+    reg [$clog2(R)-1:0] i;
+    reg [$clog2(C)-1:0] j;
     reg [2:0] state;
-    reg [3:0] matrix [0:3][0:3];
+
+    // 2D key map
+    reg [$clog2(R*C)-1:0] matrix [0:R-1][0:C-1];
     integer x, y;
 
-    // Tri-state bus handling
-    assign rows = (state == DRIVE_ROWS || state == READ_COLS) ? drive_rows : 4'bzzzz;
-    assign cols = (state == DRIVE_COLS || state == READ_ROWS) ? drive_cols : 4'bzzzz;
+    // open-drain style I/O (0 = drive low, Z = release)
+    assign rows = ((state == DRIVE_ROWS) ? drive_rows : {R{1'bz}});
+    assign cols = ((state == DRIVE_COLS) ? drive_cols : {C{1'bz}});
 
-    // Matrix init
+    // Matrix initialization
     initial begin
-        for (x = 0; x < 4; x = x + 1)
-            for (y = 0; y < 4; y = y + 1)
-                matrix[x][y] = x * 4 + y;
+        for (x = 0; x < R; x = x + 1)
+            for (y = 0; y < C; y = y + 1)
+                matrix[x][y] = x * C + y;
     end
 
+    // FSM core
     always @(posedge clk or posedge rst) begin
         if (rst) begin
-            state <= DRIVE_ROWS;
-            i <= 2'bzz;
-            j <= 2'bzz;
-            key <= 4'bzzzz;
-            drive_rows <= 4'b1111;
-            drive_cols <= 4'bzzzz;
+            state       <= DRIVE_ROWS;
+            i           <= {($clog2(R)){1'b0}};
+            j           <= {($clog2(C)){1'b0}};
+            key         <= {($clog2(R*C)){1'b0}};
+            drive_rows  <= {R{1'bz}};
+            drive_cols  <= {C{1'bz}};
         end else begin
             case (state)
-
+                // --- 1. Drive rows low ---
                 DRIVE_ROWS: begin
-                    drive_rows <= 4'b1111;
-                    drive_cols <= 4'bzzzz;
+                    drive_rows <= {R{1'b0}};
+                    drive_cols <= {C{1'bz}};
                     state <= READ_COLS;
                 end
 
+                // --- 2. Read active column (which one went low) ---
                 READ_COLS: begin
-                    if (cols === 4'bzzzz) begin
-                        j <= 2'bzz; state <= READ_COLS;
-                    end else begin                 
-                        casez (cols)
-                            4'b1000: begin j <= 2'b00; state <= DRIVE_COLS; end
-                            4'b0100: begin j <= 2'b01; state <= DRIVE_COLS; end
-                            4'b0010: begin j <= 2'b10; state <= DRIVE_COLS; end
-                            4'b0001: begin j <= 2'b11; state <= DRIVE_COLS; end
-                            default: begin j <= 2'bzz; state <= READ_COLS; end         
-                        endcase
-                    end
+                    casez (cols)
+                        4'b1110: begin j <= 2'b00; state <= RELEASE_ROWS; end
+                        4'b1101: begin j <= 2'b01; state <= RELEASE_ROWS; end
+                        4'b1011: begin j <= 2'b10; state <= RELEASE_ROWS; end
+                        4'b0111: begin j <= 2'b11; state <= RELEASE_ROWS; end
+                        default: state <= READ_COLS;
+                    endcase
                 end
 
+                // --- 3. Release all rows before driving columns ---
+                RELEASE_ROWS: begin
+                    drive_rows <= {R{1'bz}};
+                    state <= DRIVE_COLS;
+                end
+
+                // --- 4. Drive columns low ---
                 DRIVE_COLS: begin
-                    drive_cols <= 4'b1111;
-                    drive_rows <= 4'bzzzz;
+                    drive_cols <= {C{1'b0}};
                     state <= READ_ROWS;
                 end
 
+                // --- 5. Read active row (which one went low) ---
                 READ_ROWS: begin
-                    if (rows === 4'bzzzz) begin
-                        i <= 2'bzz; state <= READ_ROWS;
-                    end else begin
-                        casez (rows)
-                            4'b1000: begin i <= 2'b00; state <= LATCH_KEY; end
-                            4'b0100: begin i <= 2'b01; state <= LATCH_KEY; end
-                            4'b0010: begin i <= 2'b10; state <= LATCH_KEY; end
-                            4'b0001: begin i <= 2'b11; state <= LATCH_KEY; end
-                            default: begin i <= 2'bzz; state <= READ_ROWS; end
-                        endcase
-                    end
+                    casez (rows)
+                        4'b1110: begin i <= 2'b00; state <= RELEASE_COLS; end
+                        4'b1101: begin i <= 2'b01; state <= RELEASE_COLS; end
+                        4'b1011: begin i <= 2'b10; state <= RELEASE_COLS; end
+                        4'b0111: begin i <= 2'b11; state <= RELEASE_COLS; end
+                        default: state <= READ_ROWS;
+                    endcase
                 end
 
+                // --- 6. Release all columns before next scan ---
+                RELEASE_COLS: begin
+                    drive_cols <= {C{1'bz}};
+                    state <= LATCH_KEY;
+                end
+
+                // --- 7. Output detected key ---
                 LATCH_KEY: begin
-                    if (i !== 2'bzz && j !== 2'bzz)
-                        key <= matrix[i][j];
+                    key   <= matrix[i][j];
                     state <= DRIVE_ROWS;
                 end
             endcase

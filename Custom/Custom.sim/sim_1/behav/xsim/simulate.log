@@ -1,51 +1,51 @@
 Time resolution is 1 ps
 
 [45000] ▶ Testing key at Row=0, Col=0 (Expected=0)
-[305000] ✅ Key detected correctly: 0
+[245000] ✅ Correct key 0 detected
 
-[305000] ▶ Testing key at Row=0, Col=1 (Expected=1)
-[565000] ✅ Key detected correctly: 1
+[245000] ▶ Testing key at Row=0, Col=1 (Expected=1)
+[445000] ✅ Correct key 1 detected
 
-[565000] ▶ Testing key at Row=0, Col=2 (Expected=2)
-[825000] ✅ Key detected correctly: 2
+[445000] ▶ Testing key at Row=0, Col=2 (Expected=2)
+[645000] ✅ Correct key 2 detected
 
-[825000] ▶ Testing key at Row=0, Col=3 (Expected=3)
-[1085000] ✅ Key detected correctly: 3
+[645000] ▶ Testing key at Row=0, Col=3 (Expected=3)
+[845000] ✅ Correct key 3 detected
 
-[1085000] ▶ Testing key at Row=1, Col=0 (Expected=4)
-[1345000] ✅ Key detected correctly: 4
+[845000] ▶ Testing key at Row=1, Col=0 (Expected=4)
+[1045000] ✅ Correct key 4 detected
 
-[1345000] ▶ Testing key at Row=1, Col=1 (Expected=5)
-[1605000] ✅ Key detected correctly: 5
+[1045000] ▶ Testing key at Row=1, Col=1 (Expected=5)
+[1245000] ✅ Correct key 5 detected
 
-[1605000] ▶ Testing key at Row=1, Col=2 (Expected=6)
-[1865000] ✅ Key detected correctly: 6
+[1245000] ▶ Testing key at Row=1, Col=2 (Expected=6)
+[1445000] ✅ Correct key 6 detected
 
-[1865000] ▶ Testing key at Row=1, Col=3 (Expected=7)
-[2125000] ✅ Key detected correctly: 7
+[1445000] ▶ Testing key at Row=1, Col=3 (Expected=7)
+[1645000] ✅ Correct key 7 detected
 
-[2125000] ▶ Testing key at Row=2, Col=0 (Expected=8)
-[2385000] ✅ Key detected correctly: 8
+[1645000] ▶ Testing key at Row=2, Col=0 (Expected=8)
+[1845000] ✅ Correct key 8 detected
 
-[2385000] ▶ Testing key at Row=2, Col=1 (Expected=9)
-[2645000] ✅ Key detected correctly: 9
+[1845000] ▶ Testing key at Row=2, Col=1 (Expected=9)
+[2045000] ✅ Correct key 9 detected
 
-[2645000] ▶ Testing key at Row=2, Col=2 (Expected=10)
-[2905000] ✅ Key detected correctly: 10
+[2045000] ▶ Testing key at Row=2, Col=2 (Expected=10)
+[2245000] ✅ Correct key 10 detected
 
-[2905000] ▶ Testing key at Row=2, Col=3 (Expected=11)
-[3165000] ✅ Key detected correctly: 11
+[2245000] ▶ Testing key at Row=2, Col=3 (Expected=11)
+[2445000] ✅ Correct key 11 detected
 
-[3165000] ▶ Testing key at Row=3, Col=0 (Expected=12)
-[3425000] ✅ Key detected correctly: 12
+[2445000] ▶ Testing key at Row=3, Col=0 (Expected=12)
+[2645000] ✅ Correct key 12 detected
 
-[3425000] ▶ Testing key at Row=3, Col=1 (Expected=13)
-[3685000] ✅ Key detected correctly: 13
+[2645000] ▶ Testing key at Row=3, Col=1 (Expected=13)
+[2845000] ✅ Correct key 13 detected
 
-[3685000] ▶ Testing key at Row=3, Col=2 (Expected=14)
-[3945000] ✅ Key detected correctly: 14
+[2845000] ▶ Testing key at Row=3, Col=2 (Expected=14)
+[3045000] ✅ Correct key 14 detected
 
-[3945000] ▶ Testing key at Row=3, Col=3 (Expected=15)
-[4205000] ✅ Key detected correctly: 15
-[4405000] ✅ All keys tested.
-$finish called at time : 4405 ns : File "D:/Workspace/ParaKey/Custom/Custom.srcs/sim_1/new/tb_top.v" Line 52
+[3045000] ▶ Testing key at Row=3, Col=3 (Expected=15)
+[3245000] ✅ Correct key 15 detected
+[3445000] ✅ All keys tested.
+$finish called at time : 3445 ns : File "D:/Workspace/ParaKey/Custom/Custom.srcs/sim_1/new/tb_top.v" Line 54
