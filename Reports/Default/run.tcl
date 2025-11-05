@@ -2,7 +2,7 @@ set_db init_lib_search_path /home/install/FOUNDRY/digital/45nm/LIBS/lib/max
 set_db lef_library /home/install/FOUNDRY/digital/45nm/LIBS/lef/gsclib045.fixed.lef
 set_db library slow.lib
 
-read_hdl {./top.v}
+read_hdl {./../../Default/Default.srcs/sources_1/new/top.v}
 
 elaborate
 
