@@ -1,0 +1,31 @@
+Vivado Simulator 2016.4
+Time resolution is 1 ps
+Time=0 [TB] Starting simulation...
+Time=0 [TB] Asserting reset.
+Time=15000 [TB] De-asserting reset. DUT should start scanning.
+Time=25000 [TB] FAIL: Row not 1000 after reset.
+Time=25000 [TB] TESTCASE 1: No key press. Checking scan cycle...
+Time=35000 [TB] FAIL: Row did not scan to 0100.
+Time=45000 [TB] FAIL: Row did not scan to 0010.
+Time=55000 [TB] FAIL: Row did not scan to 0001.
+Time=65000 [TB] FAIL: Row did not wrap to 1000.
+Time=65000 [TB] TESTCASE 1: Scan OK.
+Time=65000 [TB] TESTCASE 2: Pressing key (R2, C1)...
+Time=85000 [TB] Key pressed. keyValid=1, keycode=12, row=0010
+Time=85000 [TB] FAIL: keycode is not 8'h14 ({0001, 0100}).
+Time=85000 [TB] FAIL: Row did not pause scanning.
+Time=85000 [TB] TESTCASE 3: Holding key for 3 cycles...
+Time=115000 [TB] FAIL: Row did not stay paused.
+Time=115000 [TB] TESTCASE 3: Key hold OK.
+Time=115000 [TB] TESTCASE 4: Releasing key...
+Time=125000 [TB] Key released. keyValid=0, row=0001
+Time=125000 [TB] FAIL: Row did not resume scan (expected 0010).
+Time=135000 [TB] FAIL: Scan did not continue to 0001.
+Time=135000 [TB] TESTCASE 4: Key release and resume OK.
+Time=135000 [TB] TESTCASE 5: Pressing key (R4, C3)...
+Time=145000 [TB] Key pressed. keyValid=1, keycode=48, row=1000
+Time=145000 [TB] FAIL: keycode is not 8'h41 ({0100, 0001}).
+Time=145000 [TB] FAIL: Row did not pause scanning.
+Time=155000 [TB] Key released. keyValid=0, row=0100
+Time=155000 [TB] FAIL: Row did not resume scan (expected 1000).
+Time=255000 [TB] Simulation finished.
